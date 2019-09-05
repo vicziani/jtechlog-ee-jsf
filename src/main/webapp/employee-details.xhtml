@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      >
+<h:head>
+    <title>Employees</title>
+    <h:outputStylesheet library="webjars" name="/bootstrap/4.3.1/css/bootstrap.min.css"/>
+</h:head>
+<h:body>
+<main class="container">
+    <h1>Employee details</h1>
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{employeeDetailsController.id}" />
+        <f:viewAction action="#{employeeDetailsController.findEmployeeById}" />
+    </f:metadata>
+
+    <h:form>
+        <h:inputHidden value="#{employeeDetailsController.command.id}" />
+
+        <div class="form-group">
+            <label for="salary">Name</label>
+            <h:inputText value="#{employeeDetailsController.command.name}" id="name" styleClass="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="salary">Salary</label>
+            <h:inputText value="#{employeeDetailsController.command.salary}" id="salary" styleClass="form-control"/>
+        </div>
+        <h:commandButton value="Modify employee"
+                         action="#{employeeDetailsController.modifyEmployee()}" styleClass="btn btn-primary"/>
+
+        <h:outputText value=" " />
+
+        <h:link value="Cancel" outcome="index.xhtml" />
+    </h:form>
+
+</main>
+</h:body>
+</html>

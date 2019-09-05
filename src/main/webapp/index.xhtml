@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      >
+<f:view locale="#{localeController.locale}">
+
+<h:head>
+    <title>Employees</title>
+    <h:outputStylesheet library="webjars" name="/bootstrap/4.3.1/css/bootstrap.min.css"/>
+</h:head>
+<body>
+    <main class="container">
+
+    <h1>#{msgs.list_employees_header}</h1>
+
+    <p>#{view.locale}</p>
+
+    <h:form>
+        <h:commandLink action="#{localeController.changeLocale('hu')}"
+                       value="Magyar" />
+        <ui:remove>
+            <!-- JSF remove spaces. Can not use only comment, because it appears in html source. -->
+        </ui:remove>
+        <h:outputText value=" " />
+        <h:commandLink action="#{localeController.changeLocale('en')}"
+                       value="English" />
+    </h:form>
+
+    <h:messages styleClass="alert alert-success" />
+
+        <h:form id="employeeTable">
+    <h:dataTable value="#{indexController.employees}" var="employee"
+        styleClass="table table-striped"
+        rowClass="#{employee.salary > 200000 ? 'table-danger' : ''}"
+        >
+        <h:column>
+            <f:facet name="header">
+                Id
+            </f:facet>
+            #{employee.id}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Name
+            </f:facet>
+
+            <h:link outcome="employee-details.xhtml"
+                    value="#{employee.name}">
+                    <f:param name="id" value="#{employee.id}" />
+            </h:link>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Salary
+            </f:facet>
+            #{employee.salary}
+        </h:column>
+        <h:column>
+            <h:commandButton value="Delete"
+                             action="#{indexController.deleteEmployee(employee)}"
+                >
+                <f:ajax execute="@form" render="@all" />
+            </h:commandButton>
+        </h:column>
+    </h:dataTable>
+        </h:form>
+
+    <p>
+        <h:link value="Create employee" outcome="create-employee.xhtml" />
+    </p>
+
+    </main>
+
+</body>
+</f:view>
+</html>
