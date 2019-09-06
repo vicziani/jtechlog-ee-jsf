@@ -2,6 +2,8 @@ package empapp;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.persistence.Cleanup;
+import org.jboss.arquillian.persistence.CleanupStrategy;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -32,13 +34,17 @@ public class EmployeeDaoBeanIT {
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
+// Csak @Test annotációval ellátott metóduson működik a
+// org.jboss.arquillian.transaction.api.annotation.Transactional
+
 //    @Before
 //    @Transactional
 //    public void deleteEmployees() {
-//        em.createQuery("delete from Employee").executeUpdate();
+        //em.createQuery("delete from Employee").executeUpdate();
 //    }
 
     @Test
+    @Cleanup(strategy = CleanupStrategy.STRICT)
     public void testSaveThenList() {
         employeeDaoBean.saveEmployee(new Employee("John Doe", 100_000));
         List<Employee> employees = employeeDaoBean.findEmployees();
